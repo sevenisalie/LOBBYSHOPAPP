@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from "styled-components"
 import reactLogo from './assets/react.svg'
-
+import axios from "axios"
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -88,6 +88,18 @@ box-shadow: #422800 4px 4px 0 0;
 function App() {
   const [count, setCount] = useState(0)
   const [query,setQuery] = useState("")
+  const [results, setResults] = useState("")
+
+  const fetchQuery = async () => {
+    const response = await axios.get(
+      `http://localhost:8042/clients`,
+    )
+    console.log(response)
+  }
+  useEffect(() => {
+    
+  }, [])
+  
   const handleSearch = (event:any) => {
     console.log(event.target.value)
     setQuery(event.target.value)
@@ -100,7 +112,7 @@ function App() {
     <h2 style={{alignSelf: "center", fontWeight: "600", fontSize: "5em"}}>LobbyShop</h2>
  
       <SearchInput placeholder='Keyword' onChange={e => handleSearch(e)}></SearchInput>
-      <SearchButton>Search</SearchButton>
+      <SearchButton onClick={() => fetchQuery()}>Search</SearchButton>
 
       </SearchContainer>
     </PageContainer>
