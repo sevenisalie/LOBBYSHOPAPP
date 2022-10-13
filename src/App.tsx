@@ -88,22 +88,68 @@ box-shadow: #422800 4px 4px 0 0;
 function App() {
   const [count, setCount] = useState(0)
   const [query,setQuery] = useState("")
-  const [results, setResults] = useState("")
+  const [results, setResults] = useState([])
 
   const fetchQuery = async () => {
-    const response = await axios.get(
-      `http://localhost:8042/clients`,
-    )
-    console.log(response)
+    if (query !== "") {
+      const response = await axios.get(
+        `http://localhost:8042/clients/search`,
+        {
+          params: {
+            query: `${query}`
+          }
+        }
+      )
+      console.log(response)
+      setResults(response.data.data)
+    }
   }
-  useEffect(() => {
-    
-  }, [])
+
   
   const handleSearch = (event:any) => {
     console.log(event.target.value)
     setQuery(event.target.value)
   }
+
+  const listResults = results.map((result:any, index:any) => {
+    return (
+      <>
+        <ResultsCard key={index} >
+
+          <ul>
+            Client
+            <li>{result.name}</li>
+            <li>{result.state_display}</li>
+            <li>{result.effective_date}</li>
+            <li>{result.general_description}</li>
+          </ul>
+
+          <ul>
+            Registered Agent
+          <li>{result.registrant.name}</li>
+          <li>{result.registrant.description}</li>
+          <li>{result.registrant.city}</li>
+          <li>{result.registrant.state}</li>
+          <li>{result.registrant.contact_name}</li>
+          <li>{result.registrant.contact_telephone}</li>
+          <li>{result.registrant.dt_updated}</li>
+          </ul>
+        </ResultsCard>
+      </>
+    )
+  })
+
+  
+  const testresults = results.map( (result, index) => {
+    return (
+      <>
+        <pre>
+          {JSON.stringify(result, null, 2)}
+          
+        </pre>
+      </>
+    )
+  }) 
 
   return (
    <>
@@ -115,9 +161,45 @@ function App() {
       <SearchButton onClick={() => fetchQuery()}>Search</SearchButton>
 
       </SearchContainer>
+
+      <ResultsContainer>
+        {
+          results.length > 0 &&
+          listResults
+        }
+      </ResultsContainer>
     </PageContainer>
    </>
   )
 }
 
 export default App
+
+const ResultsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  height: auto;
+  padding: 1em;
+  margin: 2em;
+  gap: 1em;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+`
+const ResultsCard = styled.div`
+display: flex;
+flex-direction: row;
+align-content: center;
+align-items: center;
+justify-content: center;
+width: 80%;
+height: auto;
+min-height: 6.4em;
+align-self: center;
+backdrop-filter: blur(16px) saturate(194%);
+-webkit-backdrop-filter: blur(16px) saturate(194%);
+background-color: rgba(255, 255, 255, 0.41);
+border-radius: 12px;
+border: 1px solid rgba(255, 255, 255, 0.125);
+`
