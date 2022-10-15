@@ -93,7 +93,7 @@ function App() {
   const fetchQuery = async () => {
     if (query !== "") {
       const response = await axios.get(
-        `http://localhost:8042/clients/search`,
+        `https://lobbyapi.onrender.com/clients/search`,
         {
           params: {
             query: `${query}`
@@ -116,24 +116,54 @@ function App() {
       <>
         <ResultsCard key={index} >
 
-          <ul>
-            Client
-            <li>{result.name}</li>
-            <li>{result.state_display}</li>
-            <li>{result.effective_date}</li>
-            <li>{result.general_description}</li>
-          </ul>
+          <ResultsContentContainer>
+            <ResultsHeader>Client Details</ResultsHeader>
+              <ResultsContentRow>
+                <ResultsRowHeader>Name:</ResultsRowHeader>
+                <ResultsRowContent>{result.name}</ResultsRowContent>
+              </ResultsContentRow>
+              <ResultsContentRow>
+                <ResultsRowHeader>Name:</ResultsRowHeader>
+                <ResultsRowContent>{result.state_display}</ResultsRowContent>
+              </ResultsContentRow>
+              <ResultsContentRow>
+                <ResultsRowHeader>Name:</ResultsRowHeader>
+                <ResultsRowContent>{result.effective_date}</ResultsRowContent>
+              </ResultsContentRow>
+              <ResultsContentRow>
+                <ResultsRowHeader>Name:</ResultsRowHeader>
+                <ResultsRowContent>{result.general_description}</ResultsRowContent>
+              </ResultsContentRow>
+          </ResultsContentContainer>
 
-          <ul>
-            Registered Agent
-          <li>{result.registrant.name}</li>
-          <li>{result.registrant.description}</li>
-          <li>{result.registrant.city}</li>
-          <li>{result.registrant.state}</li>
-          <li>{result.registrant.contact_name}</li>
-          <li>{result.registrant.contact_telephone}</li>
-          <li>{result.registrant.dt_updated}</li>
-          </ul>
+          <ResultsContentContainer>
+            <ResultsHeader>Registered Agent</ResultsHeader>
+              <ResultsContentRow>
+                <ResultsRowHeader>Name:</ResultsRowHeader>
+                <ResultsRowContent>{result.registrant.name}</ResultsRowContent>
+              </ResultsContentRow>
+              <ResultsContentRow>
+                <ResultsRowHeader>Info:</ResultsRowHeader>
+                <ResultsRowContent>{result.registrant.description}</ResultsRowContent>
+              </ResultsContentRow>
+              <ResultsContentRow>
+                <ResultsRowHeader>Locale:</ResultsRowHeader>
+                <ResultsRowContent>{`${result.registrant.city}, ${result.registrant.state}`}</ResultsRowContent>
+              </ResultsContentRow>
+              <ResultsContentRow>
+                <ResultsRowHeader>Contact:</ResultsRowHeader>
+                <ResultsRowContent>{result.registrant.contact_name}</ResultsRowContent>
+              </ResultsContentRow>
+              <ResultsContentRow>
+                <ResultsRowHeader>Phone:</ResultsRowHeader>
+                <ResultsRowContent>{result.registrant.contact_telephone}</ResultsRowContent>
+              </ResultsContentRow>
+              <ResultsContentRow>
+                <ResultsRowHeader>Last Filing:</ResultsRowHeader>
+                <ResultsRowContent>{result.registrant.dt_updated}</ResultsRowContent>
+              </ResultsContentRow>
+          </ResultsContentContainer>
+
         </ResultsCard>
       </>
     )
@@ -190,16 +220,53 @@ const ResultsContainer = styled.div`
 const ResultsCard = styled.div`
 display: flex;
 flex-direction: row;
-align-content: center;
-align-items: center;
-justify-content: center;
 width: 80%;
-height: auto;
-min-height: 6.4em;
+height: 100%;
 align-self: center;
+padding: 0.42em;
 backdrop-filter: blur(16px) saturate(194%);
 -webkit-backdrop-filter: blur(16px) saturate(194%);
 background-color: rgba(255, 255, 255, 0.41);
 border-radius: 12px;
 border: 1px solid rgba(255, 255, 255, 0.125);
+`
+const ResultsContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+  height: auto;
+
+  
+`
+const ResultsHeader = styled.h2`
+  font-size: 1.4em;
+  font-weight: 600;
+  color: #3b3b3b;
+  text-align: left;
+  align-self: flex-start;
+`
+const ResultsContentRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-content: flex-start;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1em;
+  width: 100%;
+  height: auto;
+`
+const ResultsRowHeader = styled.div`
+  font-size: 1em;
+  font-weight: 600;
+  color: #3b3b3b;
+  text-align: left;
+  margin: 0 0 0 0;
+`
+const ResultsRowContent = styled.div`
+  font-size: 1em;
+  font-weight: 600;
+  color: #3b3b3b;
+  text-align: left;
+  margin: 0 0 0 0;
 `
