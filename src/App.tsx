@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react'
 import styled from "styled-components"
 import reactLogo from './assets/react.svg'
 import axios from "axios"
+
+import Result from "./Result"
+import { AiOutlineSearch } from "react-icons/ai"
+
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
   margin: 0 0 0 0;
-  padding: 0 0 0 0;
+  padding: 0.2em 0 0.3em 0;
   justify-content: center;
   align-content: center;
   align-items: center;
@@ -15,7 +19,11 @@ const PageContainer = styled.div`
   width: 100vw;
   height: auto;
   min-height: 100vh;
-  border: 3px solid blue;
+  background: url(backgroundmesh.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 `
 const SearchContainer = styled.div`
   display: flex;
@@ -25,7 +33,6 @@ const SearchContainer = styled.div`
   align-self:center;
   position: relative;
   justify-self: center;
-  margin-top: -3em;
 `
 
 const SearchButton = styled.button`
@@ -36,19 +43,18 @@ const SearchButton = styled.button`
   color: #422800;
   cursor: pointer;
   display: inline-block;
-  font-weight: 600;
-  font-size: 18px;
-  padding: 0 18px;
-  line-height: 50px;
+  align-items: center; 
   text-align: center;
   text-decoration: none;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
   width: min-content;
+  height: min-content;
   align-self: center;
-  margin-top: 2em;
 
+  margin-left: auto;
+  margin-right: 0.8em;
   &:hover {
     background-color: #fff;
 
@@ -57,32 +63,30 @@ const SearchButton = styled.button`
     box-shadow: #422800 2px 2px 0 0;
     transform: translate(2px, 2px);
   }
-  @media (min-width: 768px) {
-    min-width: 120px;
-    padding: 0 25px;
-  }
+
   `
 const SearchInput = styled.input`
 display: flex;
 flex-direction:row;
-border-radius: 36px;
+border-radius: 36px 0 0 36px;
 background-color: white;
-align-self: center;
 height: 64px;
-width: 60%;
-border-radius: 36px;
+width: 100%;
 justify-content: center;
 align-content: center;
-font-size: 2em;
+font-size: 1.2em;
 color: #422800;
 text-align: center;
-font-weight: 600;
+justify-self: flex-start;
 background-color: #fbeee0;
-box-shadow: #422800 4px 4px 0 0;
+border: none;
+
 &:focus {
-    outline: none;
-    box-shadow: 0.2rem 0.8rem 1.6rem ;
-  }
+  outline: none;
+}
+&:active {
+  outline: none;
+}
 `
 
 function App() {
@@ -114,57 +118,7 @@ function App() {
   const listResults = results.map((result:any, index:any) => {
     return (
       <>
-        <ResultsCard key={index} >
-
-          <ResultsContentContainer>
-            <ResultsHeader>Client Details</ResultsHeader>
-              <ResultsContentRow>
-                <ResultsRowHeader>Name:</ResultsRowHeader>
-                <ResultsRowContent>{result.name}</ResultsRowContent>
-              </ResultsContentRow>
-              <ResultsContentRow>
-                <ResultsRowHeader>Name:</ResultsRowHeader>
-                <ResultsRowContent>{result.state_display}</ResultsRowContent>
-              </ResultsContentRow>
-              <ResultsContentRow>
-                <ResultsRowHeader>Name:</ResultsRowHeader>
-                <ResultsRowContent>{result.effective_date}</ResultsRowContent>
-              </ResultsContentRow>
-              <ResultsContentRow>
-                <ResultsRowHeader>Name:</ResultsRowHeader>
-                <ResultsRowContent>{result.general_description}</ResultsRowContent>
-              </ResultsContentRow>
-          </ResultsContentContainer>
-
-          <ResultsContentContainer>
-            <ResultsHeader>Registered Agent</ResultsHeader>
-              <ResultsContentRow>
-                <ResultsRowHeader>Name:</ResultsRowHeader>
-                <ResultsRowContent>{result.registrant.name}</ResultsRowContent>
-              </ResultsContentRow>
-              <ResultsContentRow>
-                <ResultsRowHeader>Info:</ResultsRowHeader>
-                <ResultsRowContent>{result.registrant.description}</ResultsRowContent>
-              </ResultsContentRow>
-              <ResultsContentRow>
-                <ResultsRowHeader>Locale:</ResultsRowHeader>
-                <ResultsRowContent>{`${result.registrant.city}, ${result.registrant.state}`}</ResultsRowContent>
-              </ResultsContentRow>
-              <ResultsContentRow>
-                <ResultsRowHeader>Contact:</ResultsRowHeader>
-                <ResultsRowContent>{result.registrant.contact_name}</ResultsRowContent>
-              </ResultsContentRow>
-              <ResultsContentRow>
-                <ResultsRowHeader>Phone:</ResultsRowHeader>
-                <ResultsRowContent>{result.registrant.contact_telephone}</ResultsRowContent>
-              </ResultsContentRow>
-              <ResultsContentRow>
-                <ResultsRowHeader>Last Filing:</ResultsRowHeader>
-                <ResultsRowContent>{result.registrant.dt_updated}</ResultsRowContent>
-              </ResultsContentRow>
-          </ResultsContentContainer>
-
-        </ResultsCard>
+      <Result result={result} key={index} />
       </>
     )
   })
@@ -184,13 +138,20 @@ function App() {
   return (
    <>
    <PageContainer>
-    <SearchContainer>
-    <h2 style={{alignSelf: "center", fontWeight: "600", fontSize: "5em"}}>LobbyShop</h2>
- 
-      <SearchInput placeholder='Keyword' onChange={e => handleSearch(e)}></SearchInput>
-      <SearchButton onClick={() => fetchQuery()}>Search</SearchButton>
 
-      </SearchContainer>
+    <SearchContainer>
+    <HeaderText>LobbyShop</HeaderText>
+    <HeaderSubText>An App For Finding Companies on Capitol Hill</HeaderSubText>
+      <SearchInputContainer>
+      <SearchInput  onChange={e => handleSearch(e)}></SearchInput>
+      <SearchButton onClick={() => fetchQuery()}>
+        <SearchIcon />
+      </SearchButton>
+      </SearchInputContainer>
+
+
+
+    </SearchContainer>
 
       <ResultsContainer>
         {
@@ -203,70 +164,51 @@ function App() {
   )
 }
 
-export default App
+const SearchIcon = styled(AiOutlineSearch)`
+  font-size: 3em;
+  margin: 0 0 0 0;
+`
 
+const SearchInputContainer = styled.div`
+display: flex;
+flex-direction:row;
+border-radius: 36px;
+background-color: white;
+align-self: center;
+height: 64px;
+width: 60%;
+border-radius: 36px;
+font-size: 2em;
+color: #422800;
+text-align: center;
+font-weight: 600;
+background-color: #fbeee0;
+box-shadow: #422800 4px 4px 0 0;
+`
+
+export default App
+const HeaderText = styled.h1`
+  font-weight: 800;
+  font-size: 3em;
+  align-self: center;
+  margin-top: 3em;
+  margin-bottom: 0.3em;
+`
+const HeaderSubText = styled.p`
+  font-weight: 600;
+  font-size: 1em;
+  align-self: center;
+  margin-top: 0px;
+  margin-bottom: 3em;
+`
 const ResultsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: 100%;
   height: auto;
-  padding: 1em;
   margin: 2em;
   gap: 1em;
   align-content: center;
   justify-content: center;
   justify-items: center;
-`
-const ResultsCard = styled.div`
-display: flex;
-flex-direction: row;
-width: 80%;
-height: 100%;
-align-self: center;
-padding: 0.42em;
-backdrop-filter: blur(16px) saturate(194%);
--webkit-backdrop-filter: blur(16px) saturate(194%);
-background-color: rgba(255, 255, 255, 0.41);
-border-radius: 12px;
-border: 1px solid rgba(255, 255, 255, 0.125);
-`
-const ResultsContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  width: 100%;
-  height: auto;
-
-  
-`
-const ResultsHeader = styled.h2`
-  font-size: 1.4em;
-  font-weight: 600;
-  color: #3b3b3b;
-  text-align: left;
-  align-self: flex-start;
-`
-const ResultsContentRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-content: flex-start;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 1em;
-  width: 100%;
-  height: auto;
-`
-const ResultsRowHeader = styled.div`
-  font-size: 1em;
-  font-weight: 600;
-  color: #3b3b3b;
-  text-align: left;
-  margin: 0 0 0 0;
-`
-const ResultsRowContent = styled.div`
-  font-size: 1em;
-  font-weight: 600;
-  color: #3b3b3b;
-  text-align: left;
-  margin: 0 0 0 0;
 `
