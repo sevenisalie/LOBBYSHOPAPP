@@ -12,7 +12,7 @@ const PageContainer = styled.div`
   position: relative;
   margin: 0 0 0 0;
   padding: 0.2em 0 0.3em 0;
-  justify-content: center;
+  justify-content: flex-start;
   align-content: center;
   align-items: center;
   align-self: center;
@@ -30,9 +30,11 @@ const SearchContainer = styled.div`
   flex-direction: column;
   width: 100%;
   height: auto;
-  align-self:center;
+  align-self: center;
   position: relative;
   justify-self: center;
+  margin-top: auto;
+  margin-bottom: auto;
   
 `
 
@@ -110,6 +112,52 @@ border: none;
   background-color: rgba(255, 255, 255, 0.1);
 }
 `
+const HeaderText = styled.h1`
+  font-weight: 800;
+  font-size: 3em;
+  align-self: center;
+  margin-bottom: 0.3em;
+  margin-left: 0.3em;
+`
+const HeaderSubText = styled.p`
+  font-weight: 400;
+  font-size: 1.3em;
+  align-self: center;
+  margin-top: 0px;
+
+`
+const ResultsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  margin: 2em;
+  gap: 1em;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+`
+const SearchIcon = styled(AiOutlineSearch)`
+  font-size: 3em;
+  margin: 0 0 0 0;
+  color: rgba(10, 10, 10, 0.7);
+`
+
+const SearchInputContainer = styled.div`
+display: flex;
+flex-direction:row;
+border-radius: 36px;
+align-self: center;
+height: 64px;
+width: 60%;
+border-radius: 36px;
+font-size: 2em;
+color: #422800;
+text-align: center;
+font-weight: 600;
+background-color: rgba(255, 255, 255, 0.4);
+border: 1px solid rgba( 255, 255, 255, 0.38 );
+`
 
 function App() {
   const [count, setCount] = useState(0)
@@ -160,10 +208,12 @@ function App() {
   return (
    <>
    <PageContainer>
-
+    <NavigationBarContainer>
+      <NavigationLogo src={'/Capitol.png'} />
+      <HeaderText>Lobby Shop</HeaderText>
+      <HeaderSubText>by TAG</HeaderSubText>
+    </NavigationBarContainer>
     <SearchContainer>
-    <HeaderText>LobbyShop</HeaderText>
-    <HeaderSubText>An App For Finding Companies on Capitol Hill</HeaderSubText>
       <SearchInputContainer>
       <SearchInput  onChange={e => handleSearch(e)}></SearchInput>
       <SearchButton onClick={() => fetchQuery()}>
@@ -186,51 +236,22 @@ function App() {
   )
 }
 
-const SearchIcon = styled(AiOutlineSearch)`
-  font-size: 3em;
-  margin: 0 0 0 0;
-  color: rgba(10, 10, 10, 0.7);
+const NavigationBarContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: auto;
+  align-content: flex-start;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: !none;
+  padding: 0.5em 0 0 0.5em;
+  text-align: center;
+`
+const NavigationLogo = styled.img`
+  height: 4em;
+  width: auto;
 `
 
-const SearchInputContainer = styled.div`
-display: flex;
-flex-direction:row;
-border-radius: 36px;
-align-self: center;
-height: 64px;
-width: 60%;
-border-radius: 36px;
-font-size: 2em;
-color: #422800;
-text-align: center;
-font-weight: 600;
-background-color: rgba(255, 255, 255, 0.4);
-border: 1px solid rgba( 255, 255, 255, 0.38 );
-`
 
 export default App
-const HeaderText = styled.h1`
-  font-weight: 800;
-  font-size: 3em;
-  align-self: center;
-  margin-top: 3em;
-  margin-bottom: 0.3em;
-`
-const HeaderSubText = styled.p`
-  font-weight: 600;
-  font-size: 1em;
-  align-self: center;
-  margin-top: 0px;
-  margin-bottom: 3em;
-`
-const ResultsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: auto;
-  margin: 2em;
-  gap: 1em;
-  align-content: center;
-  justify-content: center;
-  justify-items: center;
-`
