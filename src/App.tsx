@@ -33,13 +33,13 @@ const SearchContainer = styled.div`
   align-self:center;
   position: relative;
   justify-self: center;
+  
 `
 
 const SearchButton = styled.button`
-  background-color: #fbeee0;
-  border: 2px solid #422800;
-  border-radius: 30px;
-  box-shadow: #422800 4px 4px 0 0;
+  background-color: rgba(255, 255, 255, 0);
+  border: 2px solid rgba(255, 255, 255, 0);
+  border-radius: 0px 36px 36px 0px;
   color: #422800;
   cursor: pointer;
   display: inline-block;
@@ -50,42 +50,64 @@ const SearchButton = styled.button`
   -webkit-user-select: none;
   touch-action: manipulation;
   width: min-content;
-  height: min-content;
+  height: 100%;
   align-self: center;
-
+  margin-right: 0px;
   margin-left: auto;
-  margin-right: 0.8em;
-  &:hover {
-    background-color: #fff;
 
+  &:hover {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  &:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  &:selected {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.1);
   }
   &:active {
-    box-shadow: #422800 2px 2px 0 0;
-    transform: translate(2px, 2px);
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
   `
 const SearchInput = styled.input`
 display: flex;
-flex-direction:row;
+flex-direction: row;
 border-radius: 36px 0 0 36px;
-background-color: white;
 height: 64px;
 width: 100%;
 justify-content: center;
 align-content: center;
-font-size: 1.2em;
-color: #422800;
-text-align: center;
+font-size: 0.8em;
+padding: 0.5em;
+padding-left: 0.8em;
+color: rgba(10, 10, 10, 0.7);
+text-align: left;
 justify-self: flex-start;
-background-color: #fbeee0;
+background-color: rgba(255, 255, 255, 0.01);
 border: none;
+
+&:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  outline: none;
+}
 
 &:focus {
   outline: none;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+&:selected {
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 &:active {
   outline: none;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 `
 
@@ -167,13 +189,13 @@ function App() {
 const SearchIcon = styled(AiOutlineSearch)`
   font-size: 3em;
   margin: 0 0 0 0;
+  color: rgba(10, 10, 10, 0.7);
 `
 
 const SearchInputContainer = styled.div`
 display: flex;
 flex-direction:row;
 border-radius: 36px;
-background-color: white;
 align-self: center;
 height: 64px;
 width: 60%;
@@ -182,8 +204,8 @@ font-size: 2em;
 color: #422800;
 text-align: center;
 font-weight: 600;
-background-color: #fbeee0;
-box-shadow: #422800 4px 4px 0 0;
+background-color: rgba(255, 255, 255, 0.4);
+border: 1px solid rgba( 255, 255, 255, 0.38 );
 `
 
 export default App
